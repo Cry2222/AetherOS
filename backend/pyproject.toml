@@ -1,0 +1,17 @@
+[project]
+name = "aetheros-backend"
+version = "0.1.0"
+description = "FastAPI backend for AetherOS AI trading operating system"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.111",
+  "uvicorn[standard]>=0.30",
+  "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

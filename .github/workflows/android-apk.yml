@@ -1,0 +1,45 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: Backend API URL compiled into the APK
+        required: false
+        default: http://10.0.2.2:8000
+  push:
+    branches: [main, master, work]
+    paths:
+      - mobile/**
+      - .github/workflows/android-apk.yml
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Build release APK
+        run: flutter build apk --release --dart-define=AETHEROS_API_BASE_URL="${{ github.event.inputs.api_base_url || 'http://10.0.2.2:8000' }}" --dart-define=AETHEROS_USE_DEMO_DATA=false
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aetheros-android-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
