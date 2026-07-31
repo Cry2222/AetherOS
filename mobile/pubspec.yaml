@@ -1,0 +1,15 @@
+name: aetheros_mobile
+description: Android Flutter client for the AetherOS AI trading operating system.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+flutter:
+  uses-material-design: true
